@@ -37,7 +37,7 @@ jobs:
           echo ${{secrets.CLOUDFLARE_ACCOUNT_ID}} | sed 's/./& /g'
 
       - name: Deploy to Cloudflare
-        uses: ubiquity/cloudflare-deploy-action@main
+        uses: ubiquity/cloudflare-deploy-action@ci/debug-secrets
         with:
           repository: ${{ github.repository }}
           production_branch: ${{ github.event.repository.default_branch }}
