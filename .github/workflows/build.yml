@@ -1,11 +1,10 @@
 name: Build & Deploy
 
 on:
-  pull_request:
-  # workflow_run:
-  #   workflows: ["Init"]
-  #   types:
-  #     - completed
+  workflow_run:
+    workflows: ["Init"]
+    types:
+      - completed
 
 permissions:
   contents: read
