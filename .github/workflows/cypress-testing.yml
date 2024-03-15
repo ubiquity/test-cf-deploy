@@ -12,6 +12,8 @@ jobs:
           node-version: 20.10.0
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Debug
+        run: echo HERE
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
