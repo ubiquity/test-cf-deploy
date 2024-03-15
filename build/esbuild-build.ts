@@ -25,6 +25,7 @@ export const esBuildContext: esbuild.BuildOptions = {
 esbuild
   .build(esBuildContext)
   .then(() => {
+    console.log(process.env);
     console.log("\tesbuild complete");
   })
   .catch((err) => {
