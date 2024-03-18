@@ -38,6 +38,13 @@ jobs:
           PR_NUMBER: ${{ steps.pr.outputs.result }}
         run: echo "$PR_NUMBER"
 
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: static
+          path: static
+          run-id: ${{ github.event.workflow_run.id }}
+
       - name: Deploy to Cloudflare
         if: ${{ github.event.workflow_run.conclusion == 'success' }}
         uses: ubiquity/cloudflare-deploy-action@ci/debug-secrets
@@ -45,8 +52,8 @@ jobs:
           repository: ${{ github.repository }}
           production_branch: ${{ github.event.repository.default_branch }}
           output_directory: "static"
-          current_branch: ${{ github.ref_name }}
-          pull_request_number: ${{ github.event.pull_request.number }}
+          current_branch: ${{ github.event.workflow_run.head_branch }}
+          pull_request_number: ${{ steps.pr.outputs.result }}
           cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          commit_sha: ${{ github.event.pull_request.head.sha }}
+          commit_sha: ${{ github.event.workflow_run.head_sha }}
