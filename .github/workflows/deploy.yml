@@ -1,0 +1,29 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  workflow_run:
+    workflows: ["Build"]
+    types:
+      - completed
+
+jobs:
+  deploy-to-cloudflare:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      - name: Deploy to Cloudflare
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        uses: ubiquity/cloudflare-deploy-action@ci/debug-secrets
+        with:
+          repository: ${{ github.repository }}
+          production_branch: ${{ github.event.repository.default_branch }}
+          output_directory: "static"
+          current_branch: ${{ github.ref_name }}
+          pull_request_number: ${{ github.event.pull_request.number }}
+          cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          commit_sha: ${{ github.event.pull_request.head.sha }}
