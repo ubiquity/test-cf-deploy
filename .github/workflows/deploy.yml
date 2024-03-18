@@ -9,3 +9,4 @@ on:
 jobs:
   deploy-to-cloudflare:
     uses: ubiquity/.github/.github/workflows/deploy.yml@ci/deploy-v2
+    secrets: inherit
