@@ -10,6 +10,11 @@ jobs:
   deploy-to-cloudflare:
     runs-on: ubuntu-22.04
     steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.10.0
+
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
