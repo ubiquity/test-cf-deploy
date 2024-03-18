@@ -39,10 +39,9 @@ jobs:
         run: echo "$PR_NUMBER"
 
       - name: Download build artifact
-        uses: actions/download-artifact@v3
+        uses: dawidd6/action-download-artifact@v3
         with:
           name: static
-          path: static
           run-id: ${{ github.event.workflow_run.id }}
 
       - name: Deploy to Cloudflare
